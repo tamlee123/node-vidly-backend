@@ -41,11 +41,19 @@ router.post('/', async (req, res) => {
    
     
   });
-  rental = await rental.save();
-  movie.numberInStock--; //decrement the number in stock
-  movie.save();
+     try {
+        new Fawn.Task()
+            .save('rentals', rental)
+            .update('movies', {_id: movie._id}, {
+             $inc: {numberInStock: -1}
+            })
+            .run();
+        res.send(rental);
+    }
+    catch(ex) {
+        res.status(500).send('something failed.');
+    }
 
-  res.send(rental);
 });
 
 
