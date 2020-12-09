@@ -3,9 +3,11 @@ const auth = require('../middleware/auth');
 const {Genre, validate} = require('../models/genre');
 const mongoose = require('mongoose');
 const express = require("express");
+const winston = require('winston/lib/winston/config');
 const router = express.Router();
 
 router.get("/", async(req, res) => {
+    throw new Error ('Could not get genres.');
     const genres = await Genre.find().sort('name');
     res.send(genres);
 });
