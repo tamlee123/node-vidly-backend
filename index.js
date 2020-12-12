@@ -1,4 +1,5 @@
 require('express-async-errors');
+require('winston-mongodb');
 const winston = require('winston');
 const error = require('./middleware/error');
 const config = require ('config');
@@ -16,7 +17,8 @@ const app = express();
 
 
 
- winston.add (new winston.transports.File({filename: 'logfile.log'}));
+ winston.add (winston.transports.File, {filename: 'logfile.log'});
+ winston.add (winston.transports.MongoDB, {db: 'mongodb://localhost/vidly2'});
 //  const logger = winston.createLogger({
 //   transports: [
 //    winston.add (new winston.transports.File({ filename: 'logfile.log' }))
@@ -28,7 +30,7 @@ if(!config.get('jwtPrivateKey')){
   process.exit(1);
 }
 
-mongoose.connect('mongodb://localhost/vidly2', {useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost/vidly2', {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
   .then(() => console.log('Connected to MongoDB...'))
   .catch(() => console.error('Could not connect to MongoDB...'));
 
