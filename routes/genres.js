@@ -7,7 +7,7 @@ const winston = require('winston/lib/winston/config');
 const router = express.Router();
 
 router.get("/", async(req, res) => {
-    throw new Error ('Could not get genres.');
+    //throw new Error ('Could not get genres.');
     const genres = await Genre.find().sort('name');
     res.send(genres);
 });
@@ -52,7 +52,8 @@ router.delete("/:id",[auth, admin], async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-
+  if(!mongoose.Types.ObjectId.isValid(req.params.id))
+    return res.status(404).send('Invalid Id.');
   const genre = await Genre.findById(req.params.id)
   
   if (!genre)
