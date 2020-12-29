@@ -1,6 +1,8 @@
+const mongoose = require('mongoose');
 const request = require('supertest');
 const {Genre} = require('../../models/genre');
 const { User } = require('../../models/user');
+
 let server;
 
 describe('/api/genres', ()=> {
@@ -34,9 +36,15 @@ describe('/api/genres', ()=> {
             expect(res.status).toBe(200);
             expect(res.body).toHaveProperty('name', genre.name);
         });
-        it('should return 404 id invalid id is passed', async () => {
+        it('should return 404 if invalid id is passed', async () => {
             
             const res = await request(server).get('/api/genres/1');
+            expect(res.status).toBe(404);
+            
+        });
+        it('should return 404 if no genre with the given id exists ', async () => {
+            const id = mongoose.Types.ObjectId();
+            const res = await request(server).get('/api/genres/' + id);
             expect(res.status).toBe(404);
             
         });
@@ -64,7 +72,7 @@ describe('/api/genres', ()=> {
 
         //invalid input
         //min
-        it('Should retuen 400 if genre is less than 5 character', async () => {
+        it('Should return 400 if genre is less than 5 character', async () => {
             
             name = '1234'
             const res = await exec();
