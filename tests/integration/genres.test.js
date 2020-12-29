@@ -1,7 +1,11 @@
+const mongoose = require('mongoose');
 const request = require('supertest');
 const {Genre} = require('../../models/genre');
 const { User } = require('../../models/user');
+<<<<<<< HEAD
 const mongoose = require('mongoose');
+=======
+>>>>>>> 1b530e760c2488ba2838a835c7a490072f22e531
 
 let server;
 
