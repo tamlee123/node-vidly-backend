@@ -4,7 +4,6 @@ const auth = require('../middleware/auth');
 const {Genre, validate} = require('../models/genre');
 const mongoose = require('mongoose');
 const express = require("express");
-const winston = require('winston/lib/winston/config');
 const router = express.Router();
 
 router.get("/", async(req, res) => {

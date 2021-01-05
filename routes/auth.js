@@ -4,10 +4,11 @@ const _ = require('lodash');
 const {User} = require('../models/user');
 const mongoose = require('mongoose');
 const express = require("express");
+const validateObjectId = require("../middleware/validateObjectId");
 const router = express.Router();
 
                              
-router.post('/', async (req, res) => {
+router.post('/', validateObjectId, async (req, res) => {
     const { error } = validate(req.body); 
     if (error) return res.status(400).send(error.details[0].message);
   
