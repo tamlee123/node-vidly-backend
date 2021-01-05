@@ -80,6 +80,13 @@ describe('/api/returns', () => {
         expect(res.status).toBe(404);
     });
 
-    
+    it('Should return 400 if rental already is processed.', async () => {
+        rental.dateReturn = new Date();
+        await rental.save();
+
+        const res = await exec();
+
+        expect(res.status).toBe(400);
+    });
 
 });

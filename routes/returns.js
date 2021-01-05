@@ -11,8 +11,14 @@ router.post("/", async(req, res) => {
    const rental = await Rental.findOne({
       'customer._id': req.body.customerId,
       'movie._id': req.body.movieId
+      
+
    });
+
    if(!rental) return res.status(404).send('Rental not found');
+
+   if(rental.dateReturn) return res.status(400).send('Rental already processed.');
+
    res.status(401).send('Unauthorized');
 
 });
