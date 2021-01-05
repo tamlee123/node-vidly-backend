@@ -1,10 +1,11 @@
 const express = require("express");
+const auth = require("../middleware/auth");
 const { Rental } = require("../models/rental");
 const router = express.Router();
 
 
 
-router.post("/", async(req, res) => {  
+router.post("/",auth, async(req, res) => {  
    if(!req.body.customerId) return res.status(400).send("customerId not provided");
    if(!req.body.movieId) return res.status(400).send("movieId not provided");
 
@@ -19,8 +20,12 @@ router.post("/", async(req, res) => {
 
    if(rental.dateReturn) return res.status(400).send('Rental already processed.');
 
-   res.status(401).send('Unauthorized');
+   rental.dateReturn = new Date;
+   await rental.save();
+   return res.status(200).send();
 
 });
+
+
 
 module.exports = router;

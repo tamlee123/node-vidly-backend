@@ -89,4 +89,20 @@ describe('/api/returns', () => {
         expect(res.status).toBe(400);
     });
 
+    it('Should return 200 if we have a valid request.', async () => {
+
+        const res = await exec();
+
+        expect(res.status).toBe(200);
+    });
+    
+    it('Should set the return date if input is valid', async () => {
+
+        const res = await exec();
+
+        const rentalInDb = await Rental.findById(rental._id);
+        const diff = new Date() - rentalInDb.dateReturn;
+        expect(diff).toBeLessThan(10 * 1000);
+        //expect(rentalInDb.dateReturn).toBeDefined();
+    });
 });
